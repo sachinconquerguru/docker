@@ -1,4 +1,5 @@
 import os
+import json
 from rich.console import Console
 from rich.text import Text
 console = Console()
@@ -34,8 +35,10 @@ def Delete_Container():
     print(f"{res}is removed successfully")
 
 def Network_details_of_container():
-    cmd = f"docker network inspect bridge"
-    print(os.popen(cmd).read())
+    res = os.popen("docker network inspect bridge").read()
+    container_json = json.loads(res)[0]
+    for i in container_json["Containers"].values():
+        print(f'Image Name | {i["Name"]} | Mac Address | {i["MacAddress"]} | IPV4 Address | {i["IPv4Address"]}' )
 
 def Modify_Network_details_of_contaniner():    
     print("-------Network details--------")
